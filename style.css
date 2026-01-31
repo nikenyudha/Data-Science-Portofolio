@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #fafaf8;
+  color: #2f2f2f;
+  line-height: 1.7;
+}
+
+.hero {
+  padding: 100px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 16px 0;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #555;
+  max-width: 600px;
+}
+
+.cta {
+  margin-top: 30px;
+}
+
+.links {
+  margin-top: 24px;
+  display: flex;
+  gap: 14px;
+}
+
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: #2f2f2f;
+  color: white;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #2f2f2f;
+  border: 1px solid #ccc;
+}
+
+.btn.black {
+  display: inline-block;
+  padding: 10px 24px;   /* bikin lebih gemuk */
+  border-radius: 10px; /* gak terlalu bulat */
+  background: #000000; /* hitam solid */
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
+  font-weight: 300;
+}
+
+section {
+  max-width: 900px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+.projects {
+  background: #f3f3ef;
+}
+
+.project-card {
+  background: white;
+  padding: 28px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  font-size: 12px;
+  color: #6b7c6b;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.project-card h3 {
+  margin: 10px 0;
+}
+
+.links a {
+  margin-right: 16px;
+  text-decoration: none;
+  color: #2f2f2f;
+  border-bottom: 1px solid #ccc;
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+  color: #777;
+}
