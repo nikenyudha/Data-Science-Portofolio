@@ -97,6 +97,71 @@ h2 {
   margin-bottom: 24px;
 }
 
+.about-section {
+  background: white;
+  clip-path: polygon(
+    0 5%,
+    100% 0,
+    100% 95%,
+    0 100%
+  );
+  padding: 120px 20px;
+}
+
+.about-container {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.about-text h2 {
+  color: black;
+  letter-spacing: 0.15em;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.about-text hr {
+  width: 60px;
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.4);
+  margin-bottom: 24px;
+}
+
+.about-text p {
+  color: black;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.about-photo {
+  display: flex;
+  justify-content: center;
+}
+
+.about-photo img {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #666;
+}
+
+.aboutme {
+  background: #f3f3ef;
+}
+
+.about-card {
+  background: white;
+  padding: 28px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
 .tag {
   font-size: 12px;
   color: #6b7c6b;
@@ -120,4 +185,26 @@ h2 {
   padding: 40px 20px;
   font-size: 14px;
   color: #777;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .about-text hr {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-photo img {
+  filter: grayscale(20%) contrast(1.05);
+}
+
+  .about-photo img {
+    width: 200px;
+    height: 200px;
+    margin-top: 40px;
+  }
 }
