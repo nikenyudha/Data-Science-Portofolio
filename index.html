@@ -4,294 +4,823 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Niken Larasati Winasih — Data Science Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-color: #faf9f6;
+        --card-bg: #ffffff;
+        --text-main: #1a1a1a;
+        --text-muted: #555555;
+        --gold-primary: #c5a059;
+        --gold-dark: #8f7034;
+        --gold-light: #f0e6d2;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Lato", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Playfair Display", serif;
+      }
+
+      /* --- ANIMATIONS --- */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-load {
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      /* --- HERO SECTION --- */
+      .hero {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        background: radial-gradient(
+          circle at center,
+          #ffffff 0%,
+          var(--bg-color) 100%
+        );
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.9rem;
+        color: var(--gold-dark);
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .subtitle {
+        max-width: 650px;
+        margin: 0 auto 2.5rem;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+      }
+
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: var(--transition);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: var(--gold-primary);
+        color: #fff;
+        border: 2px solid var(--gold-primary);
+      }
+      .btn-primary:hover {
+        background: var(--gold-dark);
+        transform: translateY(-3px);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--text-main);
+        border: 2px solid var(--text-main);
+      }
+      .btn-ghost:hover {
+        background: var(--text-main);
+        color: #fff;
+        transform: translateY(-3px);
+      }
+
+      /* --- FILTER SYSTEM --- */
+      .filter-container {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .filter-btn {
+        background: transparent;
+        border: 1px solid #ddd;
+        padding: 8px 20px;
+        margin: 5px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: "Lato", sans-serif;
+        font-weight: 600;
+        transition: var(--transition);
+        color: var(--text-muted);
+      }
+
+      .filter-btn.active {
+        background: var(--gold-primary);
+        color: white;
+        border-color: var(--gold-primary);
+        box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3);
+      }
+
+      .filter-btn:hover:not(.active) {
+        border-color: var(--gold-primary);
+        color: var(--gold-primary);
+      }
+
+      /* --- PROJECTS GRID --- */
+      .projects {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .projects h1.section-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        min-height: 400px; /* Mencegah footer loncat saat filter kosong */
+      }
+
+      .project-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+      }
+
+      /* Animasi saat filter aktif */
+      .project-card.hide {
+        display: none;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      .project-card.show {
+        display: flex;
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-image {
+        height: 210px;
+        overflow: hidden;
+        background: #eee;
+      }
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+      .project-card:hover .card-image img {
+        transform: scale(1.1);
+      }
+
+      .card-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tag {
+        align-self: flex-start;
+        background: var(--gold-light);
+        color: var(--gold-dark);
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      .project-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+      }
+      .project-card p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .links {
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .links a {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--text-main);
+        position: relative;
+      }
+
+      .links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--gold-primary);
+        transition: width 0.3s;
+      }
+
+      .links a:hover::after {
+        width: 100%;
+      }
+
+      /* --- FOOTER --- */
+      .footer {
+        background: #111;
+        color: #fff;
+        text-align: center;
+        padding: 4rem 2rem;
+        margin-top: 5rem;
+      }
+
+      .footer p {
+        color: var(--gold-primary);
+        font-family: "Playfair Display", serif;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.4rem;
+        }
+        .project-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <header class="hero">
+    <header class="hero animate-load">
       <p class="eyebrow">Data Science Portfolio</p>
-      <h1>Hi, I'm Niken Larasati Winasih</h1>
+      <h1>Niken Larasati Winasih</h1>
       <p class="subtitle">
-        Bachelor’s degree in Statistics with a strong interest in Data Science
-        and Data Engineering. Experienced in Python, SQL, Tableau, and Streamlit
-        for delivering data-driven insights.
+        Bachelor's degree in Statistics. Experienced in turning complex data
+        into actionable insights using Python, SQL, Machine Learning and
+        Tableau.
       </p>
 
       <div class="cta">
-        <a href="#projects" class="btn">View Projects</a>
-        <a
-          href="assets/Niken_Larasati_Winasih_Data_scientist_CV.pdf"
-          class="btn btn-secondary"
-          target="_blank"
-        >
-          View CV
-        </a>
+        <a href="#projects" class="btn btn-primary">Browse Projects</a>
         <a
           href="https://github.com/nikenyudha"
           target="_blank"
-          class="btn ghost"
+          class="btn btn-ghost"
           >GitHub</a
         >
-        <a href="mailto:nikenyudhaa22@gmail.com" class="btn ghost">Email</a>
         <a
-          href="https://public.tableau.com/app/profile/niken.larasati.winasih/vizzes"
+          href="mailto:nikenyudhaa22@gmail.com"
           target="_blank"
-          class="btn ghost"
-          >Tableau</a
+          class="btn btn-ghost"
+          >Email</a
+        >
+        <a
+          href="assets/Niken_Larasati_Winasih_CV.pdf"
+          target="_blank"
+          class="btn btn-ghost"
+          >Download CV</a
         >
         <a
           href="https://www.linkedin.com/in/niken-larasati-winasih/"
           target="_blank"
-          class="btn ghost"
+          class="btn btn-ghost"
           >LinkedIn</a
         >
       </div>
     </header>
 
     <section id="projects" class="projects">
-      <h1>Selected Projects</h1>
+      <h1 class="section-title">Selected Projects</h1>
 
-      <div class="project-card">
-        <span class="tag">Streamlit App</span>
-        <h3>📝 StatEase — Hypothesis Testing App</h3>
-        <p>
-          StatEase is a Streamlit-based application designed to simplify
-          statistical hypothesis testing. Designed to help users perform
-          statistical hypothesis testing in a simple, intuitive, and guided way
-          without needing deep statistical or programming expertise
-        </p>
-        <div class="links">
-          <a
-            href="https://statease-hypothesis-testing-app.streamlit.app/"
-            target="_blank"
-            >Live App</a
-          >
-          <a
-            href="https://github.com/nikenyudha/hypothesis-testing-app"
-            target="_blank"
-            >GitHub</a
-          >
-        </div>
+      <div class="filter-container animate-load">
+        <button class="filter-btn active" data-filter="all">
+          All Projects
+        </button>
+        <button class="filter-btn" data-filter="streamlit">
+          Streamlit App
+        </button>
+        <button class="filter-btn" data-filter="tableau">Tableau</button>
+        <button class="filter-btn" data-filter="data-science">
+          Data Science
+        </button>
       </div>
 
-      <div class="project-card">
-        <span class="tag">Streamlit App</span>
-        <h3>📝 Titanic Survival Predictor App</h3>
-        <p>
-          A Streamlit-based application that predicts the survival of passengers
-          on the Titanic using machine learning models.
-        </p>
-        <div class="links">
-          <a
-            href="https://predictive-titanic-app.streamlit.app/"
-            target="_blank"
-            >Live App</a
-          >
-          <a
-            href="https://github.com/nikenyudha/titanic-survival-architect"
-            target="_blank"
-            >GitHub</a
-          >
+      <div class="project-grid">
+        <div class="project-card show" data-category="streamlit">
+          <div class="card-image">
+            <img
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+              alt="StatEase"
+            />
+          </div>
+          <div class="card-content">
+            <span class="tag">Streamlit App</span>
+            <h3>📝 StatEase — Hypothesis Testing</h3>
+            <p>
+              StatEase is a Streamlit-based application designed to simplify
+              statistical hypothesis testing. Designed to help users perform
+              statistical hypothesis testing in a simple way.
+            </p>
+            <div class="links">
+              <a
+                href="https://statease-hypothesis-testing-app.streamlit.app/"
+                target="_blank"
+                >Live App</a
+              >
+              <a
+                href="https://github.com/nikenyudha/hypothesis-testing-app"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag"> Streamlit App </span>
-        <h3>💗 Dreamy Tadabbur Journal App</h3>
-        <p>
-          Dreamy Tadabbur is a Streamlit-based journaling app designed to
-          support Qur'anic reflection and mindful self-writing.
-        </p>
-        <div class="links">
-          <a href="https://dreamy-tadabbur.streamlit.app/" target="_blank"
-            >Live App</a
-          >
-          <a
-            href="https://github.com/nikenyudha/dreamy-tadabbur"
-            target="_blank"
-            >GitHub</a
-          >
+        <div class="project-card show" data-category="streamlit">
+          <div class="card-image">
+            <img src="assets/cover-tadabbur.jpg" alt="Tadabbur" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Streamlit App</span>
+            <h3>Dreamy Tadabur</h3>
+            <p>
+              Predicting passenger survival probabilities using real-time
+              machine learning inputs.
+            </p>
+            <div class="links">
+              <a
+                href="https://predictive-titanic-app.streamlit.app/"
+                target="_blank"
+                >Live App</a
+              >
+              <a
+                href="https://github.com/nikenyudha/titanic-survival-architect"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Tableau</span>
-        <h3>🚀 Airbnb NYC Market Analysis</h3>
-        <p>
-          Visual exploration of customer Airbnb patterns and market analysis
-          using Tableau dashboards.
-        </p>
-        <div class="links">
-          <a
-            href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/Airbnbdashboard_17628612543590/Dashboard1"
-            target="_blank"
-            >View Dashboard</a
-          >
+        <div class="project-card show" data-category="tableau">
+          <div class="card-image">
+            <img src="assets/cover-sprocket.jpg" alt="Sprocket Central Co." />
+          </div>
+          <div class="card-content">
+            <span class="tag">Tableau</span>
+            <h3>🛒 Business Analytics Project: Sprocket Central Co.</h3>
+            <p>
+              Analyzed customer and transaction data for a bicycle company to
+              identify growth opportunities. Developed a comprehensive Tableau
+              dashboard tracking KPIs like Margin Ratio, Wealth Distribution,
+              and Demographic Trends across 5+ brands.
+            </p>
+            <div class="links">
+              <a
+                href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/kpmg_sprocket2/dashboard1"
+                target="_blank"
+                >View Dashboard</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Tableau</span>
-        <h3>🛒 Business Analytics Project: Sprocket Central Co.</h3>
-        <p>
-          Analyzed customer and transaction data for a bicycle company to
-          identify growth opportunities. Developed a comprehensive Tableau
-          dashboard tracking KPIs like Margin Ratio, Wealth Distribution, and
-          Demographic Trends across 5+ brands.
-        </p>
-        <div class="links">
-          <a
-            href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/kpmg_sprocket2/dashboard1"
-            target="_blank"
-            >View Dashboard</a
-          >
+        <div class="project-card show" data-category="tableau">
+          <div class="card-image">
+            <img src="assets/cover-airbnb.jpg" alt="Airbnb" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Tableau</span>
+            <h3>🚀 Airbnb NYC Market Analysis</h3>
+            <p>
+              Visualizing market trends and customer patterns in NYC through
+              interactive dashboards.
+            </p>
+            <div class="links">
+              <a
+                href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/Airbnbdashboard_17628612543590/Dashboard1"
+                target="_blank"
+                >View Dashboard</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🍷 Titanic End to End Machine Learning Pipeline</h3>
-        <p>
-          Built an end-to-end Machine Learning pipeline to classify Titanic
-          passenger survival based on various features, using Decision Tree,
-          Random Forest, and Gradient Boosting algorithms. The project includes
-          EDA, data preprocessing, feature engineering, model training,
-          Hyperparameter tuning, model evaluation, and top 10 Feature
-          Importance.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/titanic-end-to-end-ml-pipeline"
-            target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-wether.jpg" alt="ML" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>🍀Real-Time Weather ETL Pipeline (Python + Neon PostgreSQL)</h3>
+            <p>
+              Built an automated end-to-end ETL pipeline using Python and Neon
+              PostgreSQL Cloud to monitor real-time weather data across 5 major
+              cities. The pipeline runs without manual intervention and
+              maintains consistent data availability for downstream analysis and
+              reporting.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/weather-pipeline"
+                target="_blank"
+                >GitHub</a
+              >
+              <a
+                href="https://city-weather-dashboard.streamlit.app/"
+                target="_blank"
+                >Live App</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🌍 World Happiness 2023 Analysis</h3>
-        <p>
-          This project analyzes data from the World Happiness Report 2023 to
-          understand the factors that influence happiness levels across
-          countries.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/world-happiness-2023-analysis"
-            target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img
+              src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=800&auto=format&fit=crop"
+              alt="ML"
+            />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>
+              🤖 Titanic Survival Predictor: End-to-End Machine Learning Project
+            </h3>
+            <p>
+              Built an end-to-end Titanic survival prediction project, covering
+              EDA, feature engineering, preprocessing, and model comparison.
+              Gradient Boosting achieved ~0.80 accuracy, outperforming Logistic
+              Regression, Decision Tree, and Random Forest. The final model was
+              saved and deployed into an interactive survival predictor app.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/titanic-survival-architect/blob/main/titanic-analytics.ipynb"
+                target="_blank"
+                >GitHub</a
+              >
+              <a
+                href="https://predictive-titanic-app.streamlit.app/"
+                target="_blank"
+                >Live App</a
+              >
+              <!--<a href="assets/record-titanic.mp4" target="_blank">Preview</a>-->
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🌍 World Happiness 2023 Analysis</h3>
-        <p>
-          This project analyzes data from the World Happiness Report 2023 to
-          understand the factors that influence happiness levels across
-          countries.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/world-happiness-2023-analysis"
-            target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-churn.jpg" alt="Churn" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 Telco-customer-churn Analysis</h3>
+            <p>
+              Analysis was conducted on the customer data of a
+              telecommunications company to predict whether customers will churn
+              or stay. After preprocessing, data exploration, and modeling using
+              various Machine Learning algorithms.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/telco-customer-churn-analysis"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🌸 Iris data Analysis</h3>
-        <p>
-          This project analyzes the famous Iris dataset to explore patterns in
-          flower characteristics and classify species.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/iris-dataset-analysis"
-            target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-spocket2.jpg" alt="Kpmg" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 KPMG sprocket customer Analysis</h3>
+            <p>
+              Analyze customer data of Sprocket Central Pty Ltd, a company that
+              sells bicycles and cycling accessories. The marketing team wants
+              to understand customer trends and behaviors in order to more
+              effectively target 1000 new customers and was processed using
+              Python (pandas, numpy, seaborn, matplotlib) and visualized using
+              Tableau.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/kpmg-sprocket-customer-analysis"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>💰Loan data analysis and credit risk prediction</h3>
-        <p>
-          This project analyzes loan data to identify patterns in default risk
-          and build a credit risk model using machine learning techniques.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/loan-data-analysis-and-credit-risk-prediction"
-            target="_blank"
-            >GitHub Repo</a
-          >
-          <a
-            href="https://github.com/nikenyudha/loan-data-analysis-and-credit-risk-prediction/blob/main/loan-credit-risk-presentation.pdf"
-            target="_blank"
-            >Presentation</a
-          >
+        <div class="project-card show" data-category="streamlit">
+          <div class="card-image">
+            <img src="assets/gacha.jpg" alt="Gacha" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Streamlit App</span>
+            <h3>🚢 Gacha Strategist App</h3>
+            <p>
+              Interactive web application built with Streamlit. It simplifies
+              the complex "Pity" and "Guarantee" mechanics of Love and
+              Deepspace, helping players (Hunters) make data-driven decisions on
+              whether to spend their Diamonds or save for future banners.
+            </p>
+            <div class="links">
+              <a
+                href="https://gacha-game-prediction.streamlit.app/"
+                target="_blank"
+                >Live App</a
+              >
+              <a
+                href="https://github.com/nikenyudha/Gacha-prediction"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🛒 KPMG Sprocket Customer Analysis</h3>
-        <p>
-          This project analyzes customer data for KPMG's Sprocket Central Co. to
-          identify key customer segments and behaviors.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/kpmg-sprocket-customer-analysis"
-            target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="Data Science">
+          <div class="card-image">
+            <img src="assets/game.jpg" alt="game" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 Game Account Analytics</h3>
+            <p>
+              Data Analytics and Resource Optimization to manage 7 distinct
+              accounts with a total dataset of 750+ entries. Transition from an
+              "intuition-based" playstyle to a Data-Driven Strategy, ensuring
+              maximum combat efficiency while minimizing manual daily effort.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/game-account-analytics"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🛰️Telco customer analysis</h3>
-        <p>
-          This project analyzes customer data for a telecommunications company
-          to identify key customer segments and behaviors.
-        </p>
-        <div class="links">
-          <a href="https://github.com/nikenyudha/telco-analysis" target="_blank"
-            >GitHub Repo</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img
+              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=800&auto=format&fit=crop"
+              alt="Credit"
+            />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 Credit Risk Prediction</h3>
+            <p>
+              Building predictive models to assess borrower default risk using
+              financial datasets.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/loan-data-analysis-and-credit-risk-prediction"
+                target="_blank"
+                >GitHub</a
+              >
+              <a
+                href="https://github.com/nikenyudha/loan-data-analysis-and-credit-risk-prediction/blob/main/loan-credit-risk-presentation.pdf"
+                target="_blank"
+                >Presentation</a
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <span class="tag">Data Science</span>
-        <h3>🛬 Airplane customer segmentation</h3>
-        <p>
-          This project analyzes customer data for an airline company to identify
-          key customer segments and behaviors.
-        </p>
-        <div class="links">
-          <a
-            href="https://github.com/nikenyudha/airplane-customer-analysis"
-            target="_blank"
-            >GitHub Repo</a
-          >
-          <a
-            href="https://github.com/nikenyudha/airplane-customer-analysis/blob/master/airplane-customer-loyalty-analysis-presentation.pdf"
-            target="_blank"
-            >Presentation</a
-          >
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-iris.jpg" alt="iris" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 Iris Dataset Analysis</h3>
+            <p>
+              A comprehensive analysis of the Iris dataset, including data
+              cleaning, exploratory data analysis, and insights into the
+              relationships between different features and species.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/iris-dataset-analysis"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card show" data-category="tableau">
+          <div class="card-image">
+            <img src="assets/cover-whr.jpg" alt="Airbnb" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Tableau</span>
+            <h3>🚀 World Happiness Report Analysis</h3>
+            <p>
+              World Happiness Report 2023 Analysis: A comprehensive Tableau
+              dashboard visualizing global happiness trends, key factors
+              influencing well-being, and country comparisons based on the 2023
+              report.
+            </p>
+            <div class="links">
+              <a
+                href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/WHR2023_dashboard/Dashboard1"
+                target="_blank"
+                >View Dashboard</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-airplane.jpg" alt="Credit" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 World Happiness Report Analysis</h3>
+            <p>
+              This project analyzes data from the World Happiness Report 2023 to
+              understand the factors that influence happiness levels across
+              countries. The analysis includes data cleaning, exploratory data
+              analysis, and visualization to identify key trends and insights
+              related to global happiness.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/world-happiness-2023-analysis"
+                target="_blank"
+                >GitHub</a
+              >
+
+              <a
+                href="https://github.com/nikenyudha/world-happiness-2023-analysis"
+                target="_blank"
+                >Tableau</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card show" data-category="data-science">
+          <div class="card-image">
+            <img src="assets/cover-airplane.jpg" alt="Credit" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Data Science</span>
+            <h3>💰 Airplane Customer Segmentation</h3>
+            <p>
+              This project aims to analyze and segment airline customers to
+              understand their behavior and value. By identifying different
+              customer groups, the airline can develop targeted marketing
+              strategies, improve loyalty programs, and optimize resource
+              allocation and uses the LRFMC Model.
+            </p>
+            <div class="links">
+              <a
+                href="https://github.com/nikenyudha/airplane-customer-analysis"
+                target="_blank"
+                >GitHub</a
+              >
+              <a
+                href="https://github.com/nikenyudha/airplane-customer-analysis/blob/master/airplane-customer-loyalty-analysis-presentation.pdf"
+                target="_blank"
+                >Presentation</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card show" data-category="tableau">
+          <div class="card-image">
+            <img src="assets/cover-retail.jpg" alt="Retail" />
+          </div>
+          <div class="card-content">
+            <span class="tag">Tableau</span>
+            <h3>🛒 Retail Analytics Dashboard</h3>
+            <p>
+              Developed a comprehensive Tableau dashboard for a retail dataset,
+              analyzing sales performance, customer demographics, to drive
+              strategic business decisions.
+            </p>
+            <div class="links">
+              <a
+                href="https://public.tableau.com/app/profile/niken.larasati.winasih/viz/data_retail_viz_bynick/Dashboard1"
+                target="_blank"
+                >View Dashboard</a
+              >
+
+              <a href="assets/Dashboard -Retail.png" target="_blank">Preview</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <footer class="footer">
-      <p>© 2026 Niken Larasati Winasih 💗.</p>
+      <p>© 2026 Niken Larasati Winasih - Build with Data 💗</p>
     </footer>
+
+    <script>
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const projectCards = document.querySelectorAll(".project-card");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          // Remove active class from all buttons
+          filterButtons.forEach((btn) => btn.classList.remove("active"));
+          // Add active class to clicked button
+          button.classList.add("active");
+
+          const filterValue = button.getAttribute("data-filter");
+
+          projectCards.forEach((card) => {
+            const cardCategory = card.getAttribute("data-category");
+
+            if (filterValue === "all" || filterValue === cardCategory) {
+              card.classList.remove("hide");
+              card.classList.add("show");
+            } else {
+              card.classList.remove("show");
+              card.classList.add("hide");
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
